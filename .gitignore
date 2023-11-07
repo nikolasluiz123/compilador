@@ -1,0 +1,26 @@
+# Arquivos e diretórios específicos do Eclipse
+.metadata/
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+
+# Arquivos JDT (Java Development Tools)
+*.class
+
+# Arquivos de configuração do Eclipse
+.project
+.classpath
+.factorypath
+
+# Outros arquivos e diretórios específicos do Java
+*.log
+*.iml
+.idea/
+target/
+*.jar
