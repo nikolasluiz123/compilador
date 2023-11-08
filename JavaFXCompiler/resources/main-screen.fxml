@@ -49,7 +49,7 @@
 				</Menu>
 				<Menu mnemonicParsing="false" text="Projeto">
 					<items>
-						<MenuItem id="menuItemExecutar" mnemonicParsing="false" text="Executar" />
+						<MenuItem id="menuItemExecutar" mnemonicParsing="false" text="Executar" onAction="#handleMenuExecutarClick" />
 					</items>
 				</Menu>
 			</menus>
@@ -64,7 +64,7 @@
 									<content>
 										<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="184.0" prefWidth="900.0">
 											<children>
-												<TextArea layoutY="1.0" prefHeight="149.0" prefWidth="902.0">
+												<TextArea fx:id="textAreaConsole" layoutY="1.0" prefHeight="149.0" prefWidth="902.0">
 													<font>
 														<Font name="Roboto" size="14.0" />
 													</font>

@@ -2,6 +2,9 @@ package application;
 
 import java.io.File;
 
+import application.analyser.Lexico;
+import application.analyser.Semantico;
+import application.analyser.Sintatico;
 import application.reader.FileBufferedReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,10 +16,10 @@ import javafx.stage.Stage;
 public class MainController {
 
 	@FXML
-	private MenuItem menuSair;
+	private TextArea textAreaCodigo;
 	
 	@FXML
-	private TextArea textAreaCodigo;
+	private TextArea textAreaConsole;
 
 	@FXML
 	private void handleMenuSairClick(ActionEvent event) {
@@ -38,6 +41,17 @@ public class MainController {
 			this.textAreaCodigo.setText(reader.readFile());
 		} catch(Exception e) {
 			e.printStackTrace();
+		}
+	}
+	
+	@FXML
+	private void handleMenuExecutarClick(ActionEvent event) {
+		try {
+			Lexico lexico = new Lexico(this.textAreaCodigo.getText());
+			Sintatico sintatico = new Sintatico();
+			sintatico.parse(lexico, new Semantico());
+		} catch (Exception e) {
+			this.textAreaConsole.setText(e.getMessage());
 		}
 	}
 
