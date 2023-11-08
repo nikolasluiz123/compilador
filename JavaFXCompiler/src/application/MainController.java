@@ -1,6 +1,9 @@
 package application;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import application.analyser.Lexico;
 import application.analyser.Semantico;
@@ -17,9 +20,11 @@ public class MainController {
 
 	@FXML
 	private TextArea textAreaCodigo;
-	
+
 	@FXML
 	private TextArea textAreaConsole;
+
+	private File lastDirectorySaved;
 
 	@FXML
 	private void handleMenuSairClick(ActionEvent event) {
@@ -36,14 +41,14 @@ public class MainController {
 
 		File selectedFile = fileChooser.showOpenDialog(getStageFromMenuItemActionEvent(event));
 		FileBufferedReader reader = new FileBufferedReader(selectedFile.getAbsolutePath());
-		
+
 		try {
 			this.textAreaCodigo.setText(reader.readFile());
-		} catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	private void handleMenuExecutarClick(ActionEvent event) {
 		try {
@@ -52,6 +57,30 @@ public class MainController {
 			sintatico.parse(lexico, new Semantico());
 		} catch (Exception e) {
 			this.textAreaConsole.setText(e.getMessage());
+		}
+	}
+
+	@FXML
+	private void handleMenuSalvar(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Salvar Arquivo");
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Arquivos de Texto", "*.txt"));
+
+		if (this.lastDirectorySaved != null) {
+			fileChooser.setInitialDirectory(this.lastDirectorySaved);
+		}
+
+		File file = fileChooser.showSaveDialog(getStageFromMenuItemActionEvent(event));
+
+		if (file != null) {
+			this.lastDirectorySaved = file.getParentFile();
+
+			try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+				writer.write(this.textAreaCodigo.getText());
+				writer.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

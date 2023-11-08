@@ -42,7 +42,7 @@
 					<items>
 						<MenuItem id="menuItemNovo" mnemonicParsing="false" text="Novo" />
 						<MenuItem id="menuItemImportar" mnemonicParsing="false" onAction="#handleMenuImportarClick" text="Importar" />
-						<MenuItem id="menuItemSalvar" mnemonicParsing="false" text="Salvar" />
+						<MenuItem id="menuItemSalvar" mnemonicParsing="false" text="Salvar" onAction="#handleMenuSalvar" />
 						<SeparatorMenuItem mnemonicParsing="false" />
 						<MenuItem id="menuItemSair" mnemonicParsing="false" onAction="#handleMenuSairClick" text="Sair" />
 					</items>
