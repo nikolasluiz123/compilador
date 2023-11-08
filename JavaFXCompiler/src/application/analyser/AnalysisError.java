@@ -1,4 +1,4 @@
-package br.com.java.compiler.analyzer;
+package application.analyser;
 
 public class AnalysisError extends Exception
 {

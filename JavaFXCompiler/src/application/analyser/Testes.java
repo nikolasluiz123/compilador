@@ -1,4 +1,6 @@
-package br.com.java.compiler.analyzer;
+package application.analyser;
+
+import application.reader.FileBufferedReader;
 
 public class Testes {
 

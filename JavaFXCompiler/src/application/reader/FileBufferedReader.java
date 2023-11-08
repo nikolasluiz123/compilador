@@ -1,4 +1,4 @@
-package br.com.java.compiler.analyzer;
+package application.reader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,7 +29,7 @@ public class FileBufferedReader {
 	 *
 	 */
 	public String readFile() throws Exception {
-		StringJoiner joiner = new StringJoiner(" ");
+		StringJoiner joiner = new StringJoiner("\r\n");
 		FileReader fileReader = new FileReader(this.fileName);
 
 		try (BufferedReader reader = new BufferedReader(fileReader)) {
