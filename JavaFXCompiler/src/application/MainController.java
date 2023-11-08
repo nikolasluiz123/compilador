@@ -83,6 +83,13 @@ public class MainController {
 			}
 		}
 	}
+	
+	@FXML
+	private void handleMenuNovo(ActionEvent event) {
+		this.lastDirectorySaved = null;
+		this.textAreaCodigo.setText("");
+		this.textAreaCodigo.setText("");
+	}
 
 	private Stage getStageFromMenuItemActionEvent(ActionEvent event) {
 		return ((Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow());
