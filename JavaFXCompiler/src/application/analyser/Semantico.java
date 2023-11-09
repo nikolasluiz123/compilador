@@ -1,26 +1,58 @@
 package application.analyser;
 
 import java.util.Stack;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class Semantico implements Constants {
 
 	private static final int ACTION_PEGAR_TIPO_ATRIBUICAO = 1;
-	private static final int ACTION_VALIDAR_TIPO_VALOR_ATRIBUICAO = 2;
+	private static final int ACTION_VALIDAR_IDENTIFICADOR_EXISTENTE = 2;
+	private static final int ACTION_VALIDAR_TIPO_VALOR_ATRIBUICAO = 3;
+	private static final int ACTION_WRITE_LN = 4;
 	
-	private Stack<Token> tokens;
+	private Stack<Variavel> variaveis;
 	
-	public Semantico() {
-		this.tokens = new Stack<>();
+	private Consumer<String> consumerWriteln;
+	
+	public Semantico(Consumer<String> consumerWriteln) {
+		this.variaveis = new Stack<>();
+		this.consumerWriteln = consumerWriteln;
 	}
 
 	public void executeAction(int action, Token token) throws SemanticError {
 		switch (action) {
 		case ACTION_PEGAR_TIPO_ATRIBUICAO: {
-			this.tokens.push(token);
+			Variavel variavel = new Variavel();
+			variavel.setTipo(token);
+			this.variaveis.push(variavel);
+			
+			break;
+		}
+		case ACTION_VALIDAR_IDENTIFICADOR_EXISTENTE: {
+			boolean exists = this.variaveis.stream().anyMatch(variavelExists(token));
+			
+			if (!exists) {
+				Variavel variavel = this.variaveis.pop();
+				variavel.setIdentificador(token);
+				this.variaveis.push(variavel);
+			} else {
+				throw new SemanticError("O identificador %s já foi declarado.".formatted(token.getLexeme()));
+			}
+			
 			break;
 		}
 		case ACTION_VALIDAR_TIPO_VALOR_ATRIBUICAO: {
 			validarTipos(token);
+			
+			Variavel variavel = this.variaveis.pop();
+			variavel.setValor(token);
+			this.variaveis.push(variavel);
+			
+			break;
+		}
+		case ACTION_WRITE_LN: {
+			consumerWriteln.accept(token.getLexeme().replace("\"", ""));
 			break;
 		}
 		default:
@@ -28,11 +60,21 @@ public class Semantico implements Constants {
 		}
 	}
 
+	private Predicate<? super Variavel> variavelExists(Token token) {
+		return t -> {
+			if (t.getIdentificador() == null) {
+				return false;
+			}
+			
+			return t.getIdentificador().getLexeme().equals(token.getLexeme());
+		};
+	}
+
 	private void validarTipos(Token token) throws SemanticError {
-		Token tokenTipo = this.tokens.pop();
+		Variavel variavel = this.variaveis.peek();
 		String lexemeValor = token.getLexeme();
 		
-		switch (tokenTipo.getId()) {
+		switch (variavel.getTipo().getId()) {
 		case Constants.t_int: {
 			validarTipoInteiro(token, lexemeValor);
 			break;

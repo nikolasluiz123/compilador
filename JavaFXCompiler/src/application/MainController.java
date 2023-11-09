@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.function.Consumer;
 
 import application.analyser.Lexico;
 import application.analyser.Semantico;
@@ -52,12 +53,21 @@ public class MainController {
 	@FXML
 	private void handleMenuExecutarClick(ActionEvent event) {
 		try {
+			this.textAreaConsole.clear();
+			
 			Lexico lexico = new Lexico(this.textAreaCodigo.getText());
 			Sintatico sintatico = new Sintatico();
-			sintatico.parse(lexico, new Semantico());
+			Semantico semantico = new Semantico(getConsumerWriteln());
+			
+			sintatico.parse(lexico, semantico);
 		} catch (Exception e) {
 			this.textAreaConsole.setText(e.getMessage());
+			e.printStackTrace();
 		}
+	}
+
+	private Consumer<String> getConsumerWriteln() {
+		return (texto) -> this.textAreaConsole.appendText(texto + "\r\n");
 	}
 
 	@FXML

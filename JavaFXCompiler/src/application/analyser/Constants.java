@@ -41,5 +41,6 @@ public interface Constants extends ScannerConstants, ParserConstants
     int t_private = 35;
     int t_void = 36;
     int t_static = 37;
+    int t_writeln = 38;
 
 }
