@@ -11,9 +11,12 @@ WS : [\ \t\n\r]</definitions><tokens>//ignorar espaços em branco e comentários
 "*"&#13;
 "&amp;&amp;"&#13;
 "||"&#13;
+"!"&#13;
 "&gt;"&#13;
 "&lt;"&#13;
 "=="&#13;
+"&gt;="&#13;
+"&lt;="&#13;
 "("&#13;
 ")"&#13;
 "{"&#13;
