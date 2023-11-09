@@ -71,12 +71,12 @@ public interface ScannerConstants
     };
 
     int[] SPECIAL_CASES_INDEXES =
-        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19 };
+        { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9 };
 
     String[] SPECIAL_CASES_KEYS =
-        {  "boolean", "class", "do", "double", "else", "false", "for", "if", "int", "private", "protected", "public", "static", "string", "switch", "true", "void", "while", "writeln" };
+        {  "boolean", "double", "else", "false", "if", "int", "string", "true", "writeln" };
 
     int[] SPECIAL_CASES_VALUES =
-        {  32, 35, 28, 30, 24, 34, 26, 23, 29, 38, 37, 36, 40, 31, 25, 33, 39, 27, 41 };
+        {  28, 26, 24, 30, 23, 25, 27, 29, 31 };
 
 }

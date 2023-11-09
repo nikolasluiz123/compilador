@@ -28,22 +28,12 @@ public interface Constants extends ScannerConstants, ParserConstants
     int t_texto = 22;
     int t_if = 23;
     int t_else = 24;
-    int t_switch = 25;
-    int t_for = 26;
-    int t_while = 27;
-    int t_do = 28;
-    int t_int = 29;
-    int t_double = 30;
-    int t_string = 31;
-    int t_boolean = 32;
-    int t_true = 33;
-    int t_false = 34;
-    int t_class = 35;
-    int t_public = 36;
-    int t_protected = 37;
-    int t_private = 38;
-    int t_void = 39;
-    int t_static = 40;
-    int t_writeln = 41;
+    int t_int = 25;
+    int t_double = 26;
+    int t_string = 27;
+    int t_boolean = 28;
+    int t_true = 29;
+    int t_false = 30;
+    int t_writeln = 31;
 
 }
