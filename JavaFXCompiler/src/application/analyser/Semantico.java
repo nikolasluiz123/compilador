@@ -9,7 +9,7 @@ public class Semantico implements Constants {
 	private static final int ACTION_PEGAR_TIPO_ATRIBUICAO = 1;
 	private static final int ACTION_VALIDAR_IDENTIFICADOR_EXISTENTE = 2;
 	private static final int ACTION_VALIDAR_TIPO_VALOR_ATRIBUICAO = 3;
-	private static final int ACTION_WRITE_LN = 4;
+	private static final int ACTION_WRITE_LN_VALOR = 4;
 	
 	private Stack<Variavel> variaveis;
 	
@@ -51,7 +51,7 @@ public class Semantico implements Constants {
 			
 			break;
 		}
-		case ACTION_WRITE_LN: {
+		case ACTION_WRITE_LN_VALOR: {
 			consumerWriteln.accept(token.getLexeme().replace("\"", ""));
 			break;
 		}
