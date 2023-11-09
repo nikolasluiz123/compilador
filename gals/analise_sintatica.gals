@@ -76,7 +76,7 @@ writeln = identificador: "writeln"</tokens><non_terminals>&lt;PROGRAMA&gt;&#13;
 &#13;
 &lt;ATRIBUICOES&gt; ::= &lt;ATRIBUICAO&gt; &lt;ATRIBUICOES&gt; | &lt;ATRIBUICAO&gt;;&#13;
 &#13;
-&lt;ATRIBUICAO&gt; ::= &lt;TIPOS_PRIMITIVOS&gt; #1 identificador #2 "=" &lt;VALOR&gt; #3 | &lt;ATRIBUICAO&gt; &lt;OPERACAO&gt; &lt;VALOR&gt;;&#13;
+&lt;ATRIBUICAO&gt; ::= &lt;TIPOS_PRIMITIVOS&gt; #1 identificador #2 "=" &lt;VALOR&gt; #3 | &lt;ATRIBUICAO&gt; &lt;OPERACAO&gt; #6 &lt;VALOR&gt; #3;&#13;
 &#13;
 &lt;TIPOS_PRIMITIVOS&gt; ::= int | double | string | boolean;&#13;
 &#13;
@@ -97,4 +97,4 @@ writeln = identificador: "writeln"</tokens><non_terminals>&lt;PROGRAMA&gt;&#13;
 &#13;
 &lt;WRITES&gt; ::= &lt;WRITE&gt; &lt;WRITES&gt; | &lt;WRITE&gt;;&#13;
 &#13;
-&lt;WRITE&gt; ::= writeln "(" &lt;VALOR&gt; #4 ")";</grammar></data></gals_file>
+&lt;WRITE&gt; ::= writeln "(" &lt;VALOR&gt; #4 ")" | writeln "(" identificador #5 ")";</grammar></data></gals_file>

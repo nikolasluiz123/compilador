@@ -1,10 +1,13 @@
 package application.analyser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Variavel {
 
 	private Token tipo;
 	private Token identificador;
-	private Token valor;
+	private List<Token> valores;
 
 	public Token getTipo() {
 		return tipo;
@@ -22,12 +25,16 @@ public class Variavel {
 		this.identificador = identificador;
 	}
 
-	public Token getValor() {
-		return valor;
+	public List<Token> getValores() {
+		return valores;
 	}
 
-	public void setValor(Token valor) {
-		this.valor = valor;
+	public void addValor(Token valor) {
+		if (this.valores == null) {
+			this.valores = new ArrayList<>();
+		}
+		
+		this.valores.add(valor);
 	}
 
 }

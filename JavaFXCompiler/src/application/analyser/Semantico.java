@@ -10,6 +10,8 @@ public class Semantico implements Constants {
 	private static final int ACTION_VALIDAR_IDENTIFICADOR_EXISTENTE = 2;
 	private static final int ACTION_VALIDAR_TIPO_VALOR_ATRIBUICAO = 3;
 	private static final int ACTION_WRITE_LN_VALOR = 4;
+	private static final int ACTION_WRITE_LN_IDENTIFICADOR = 5;
+	private static final int ACTION_PEGAR_OPERACAO = 6;
 	
 	private Stack<Variavel> variaveis;
 	
@@ -46,13 +48,64 @@ public class Semantico implements Constants {
 			validarTipos(token);
 			
 			Variavel variavel = this.variaveis.pop();
-			variavel.setValor(token);
+			variavel.addValor(token);
 			this.variaveis.push(variavel);
 			
 			break;
 		}
 		case ACTION_WRITE_LN_VALOR: {
 			consumerWriteln.accept(token.getLexeme().replace("\"", ""));
+			break;
+		}
+		case ACTION_WRITE_LN_IDENTIFICADOR: {
+			Variavel variavel = this.variaveis.stream()
+											  .filter(v -> v.getIdentificador().getLexeme().equals(token.getLexeme()))
+											  .findFirst().get();
+			
+			switch (variavel.getTipo().getId()) {
+			case Constants.t_int: {
+				Integer resultado = null;
+				Integer idOperacao = null;
+				
+				for (Token valor : variavel.getValores()) {
+					if (valor.getId() == Constants.t_numeroInteiro) {
+						
+						if (resultado == null) {
+							resultado = Integer.parseInt(valor.getLexeme());
+						} else {
+							if (idOperacao == Constants.t_TOKEN_2) {
+								resultado += Integer.parseInt(valor.getLexeme());
+							}
+						}
+					} else {
+						idOperacao = valor.getId();
+					}
+				}
+				
+				consumerWriteln.accept(resultado.toString());
+				
+				break;
+			}
+			case Constants.t_double: {
+				
+				break;
+			}
+			case Constants.t_string: {
+				
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("O tipo da variável não foi tratado.");
+			}
+			
+			// arrumar depois
+			//System.out.println(variavel.getValor().getLexeme());
+			
+			break;
+		}
+		case ACTION_PEGAR_OPERACAO: {
+			Variavel variavel = this.variaveis.peek();
+			variavel.addValor(token);
 			break;
 		}
 		default:
