@@ -25,7 +25,7 @@ WS : [\ \t\n\r]</definitions><tokens>//ignorar espaços em branco e comentários
 identificador: {letra} ( {letra} | {digito} )*&#13;
 numeroInteiro: {digito}+&#13;
 numeroDecimal: {digito}+.{digito}+&#13;
-texto: \"[A-Za-z0-9\s]*\"&#13;
+texto: \"[^\n]*\"&#13;
 &#13;
 if = identificador: "if"&#13;
 else = identificador: "else"&#13;
