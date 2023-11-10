@@ -1,5 +1,6 @@
 package application.analyser;
 
+import java.util.Iterator;
 import java.util.Stack;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -12,13 +13,19 @@ public class Semantico implements Constants {
 	private static final int ACTION_WRITE_LN_VALOR = 4;
 	private static final int ACTION_WRITE_LN_IDENTIFICADOR = 5;
 	private static final int ACTION_PEGAR_OPERACAO = 6;
+	private static final int ACTION_PEGAR_VALOR_EXPRESSAO_BOOLEANA = 7;
+	private static final int ACTION_PEGAR_OPERADOR_EXPRESSAO_BOOLEANA = 8;
+	private static final int ACTION_FINALIZAR_EXPRESSAO_BOOLEANA = 9;
 
 	private Stack<Variavel> variaveis;
+	private Stack<ExpressaoBooleana> expressoes;
+	private ExpressaoBooleana expressao;
 
 	private Consumer<String> consumerWriteln;
 
 	public Semantico(Consumer<String> consumerWriteln) {
 		this.variaveis = new Stack<>();
+		this.expressoes = new Stack<>();
 		this.consumerWriteln = consumerWriteln;
 	}
 
@@ -59,8 +66,7 @@ public class Semantico implements Constants {
 		}
 		case ACTION_WRITE_LN_IDENTIFICADOR: {
 			Variavel variavel = this.variaveis.stream()
-											  .filter(v -> v.getIdentificador().getLexeme().equals(token.getLexeme()))
-											  .findFirst().get();
+					.filter(v -> v.getIdentificador().getLexeme().equals(token.getLexeme())).findFirst().get();
 
 			switch (variavel.getTipo().getId()) {
 			case Constants.t_int: {
@@ -86,8 +92,81 @@ public class Semantico implements Constants {
 			variavel.addValor(token);
 			break;
 		}
+		case ACTION_PEGAR_VALOR_EXPRESSAO_BOOLEANA: {
+			if (this.expressao == null) {
+				this.expressao = new ExpressaoBooleana();
+			}
+
+			this.expressao.addValor(token);
+
+			break;
+		}
+		case ACTION_PEGAR_OPERADOR_EXPRESSAO_BOOLEANA: {
+			this.expressao.addOperador(token);
+			break;
+		}
+		case ACTION_FINALIZAR_EXPRESSAO_BOOLEANA: {
+			this.expressoes.push(this.expressao);
+			System.out.println(getValueExpressaoBooleana(this.expressao));
+			this.expressao = null;
+
+			break;
+		}
 		default:
 			throw new IllegalArgumentException("A ação da gramática não foi tratada.");
+		}
+	}
+
+	private Boolean getValueExpressaoBooleana(ExpressaoBooleana expressao) throws SemanticError {
+		Boolean resultado = false;
+
+		for (int i = 0; i < (expressao.getValores().size() / 2); i++) {
+			Integer indexValor = i * 2;
+			Token valor = expressao.getValores().get(indexValor);
+			Token operador = null;
+			Token proximoOperador = null;
+			Token proximoValor = null;
+			try {
+				operador = expressao.getOperadores().get(i);
+				proximoValor = expressao.getValores().get(indexValor + 1);
+				proximoOperador = expressao.getOperadores().get(i + 1);
+			} catch (IndexOutOfBoundsException e) {
+
+			}
+
+			switch (operador.getId()) {
+			case Constants.t_TOKEN_10: {
+				resultado = getBooleanMaiorQue(valor, proximoValor);
+				break;
+			}
+			case Constants.t_TOKEN_7: {
+				switch (proximoOperador.getId()) {
+				case Constants.t_TOKEN_10: {
+					resultado = resultado && getBooleanMaiorQue(valor, proximoValor);
+					break;
+				}
+				default:
+					throw new SemanticError("Erro ao obter o valor da expressão booleana. Operador booleano inválido ou não tratado.");
+				}
+
+				break;
+			}
+			default:
+				throw new SemanticError("Erro ao obter o valor da expressão booleana. Operador booleano inválido ou não tratado.");
+			}
+		}
+
+		return resultado;
+	}
+
+	private Boolean getBooleanMaiorQue(Token valor, Token proximoValor) throws SemanticError {
+		if (valor.getId() == Constants.t_numeroDecimal || valor.getId() == Constants.t_numeroInteiro) {
+			Double numero1 = Double.parseDouble(valor.getLexeme());
+			Double numero2 = Double.parseDouble(proximoValor.getLexeme());
+
+			return numero1 > numero2;
+		} else {
+			throw new SemanticError("Erro ao obter o valor da expressão booleana. O operador > deve ser usado apenas com números.");
 		}
 	}
 
@@ -117,7 +196,7 @@ public class Semantico implements Constants {
 
 		consumerWriteln.accept(resultado.toString());
 	}
-	
+
 	private void realizarOperacoesDecimais(Variavel variavel) throws SemanticError {
 		Double resultado = null;
 		Integer idOperacao = null;
@@ -144,7 +223,7 @@ public class Semantico implements Constants {
 
 		consumerWriteln.accept(resultado.toString());
 	}
-	
+
 	private void realizarOperacoesStrings(Variavel variavel) throws SemanticError {
 		String resultado = null;
 		Integer idOperacao = null;
