@@ -35,70 +35,86 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+<VBox prefHeight="600.0" prefWidth="900.0"
+	xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="application.MainController">
 	<children>
 		<MenuBar VBox.vgrow="NEVER">
 			<menus>
 				<Menu id="menuArquivo" mnemonicParsing="false" text="Arquivo">
 					<items>
-						<MenuItem id="menuItemNovo" mnemonicParsing="false" text="Novo" onAction="#handleMenuNovoClick">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-						<MenuItem id="menuItemImportar" mnemonicParsing="false" onAction="#handleMenuImportarClick" text="Importar">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
-						<MenuItem id="menuItemSalvar" mnemonicParsing="false" onAction="#handleMenuSalvar" text="Salvar">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
+						<MenuItem id="menuItemNovo" mnemonicParsing="false"
+							text="Novo" onAction="#handleMenuNovoClick">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="N"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem id="menuItemImportar" mnemonicParsing="false"
+							onAction="#handleMenuImportarClick" text="Importar">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="I"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
+						<MenuItem id="menuItemSalvar" mnemonicParsing="false"
+							onAction="#handleMenuSalvar" text="Salvar">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="S"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
 						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem id="menuItemSair" mnemonicParsing="false" onAction="#handleMenuSairClick" text="Sair">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="ESCAPE" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
+						<MenuItem id="menuItemSair" mnemonicParsing="false"
+							onAction="#handleMenuSairClick" text="Sair">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="ESCAPE" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Projeto">
 					<items>
-						<MenuItem id="menuItemExecutar" mnemonicParsing="false" onAction="#handleMenuExecutarClick" text="Executar">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator>
-                  </MenuItem>
+						<MenuItem id="menuItemExecutar" mnemonicParsing="false"
+							onAction="#handleMenuExecutarClick" text="Executar">
+							<accelerator>
+								<KeyCodeCombination alt="UP" code="E"
+									control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+							</accelerator>
+						</MenuItem>
 					</items>
 				</Menu>
 			</menus>
 		</MenuBar>
-		<SplitPane dividerPositions="0.5" focusTraversable="true" orientation="VERTICAL" VBox.vgrow="ALWAYS">
+		<SplitPane dividerPositions="0.5" focusTraversable="true"
+			orientation="VERTICAL" VBox.vgrow="ALWAYS">
 			<items>
-						<TextArea fx:id="textAreaCodigo" prefHeight="329.0" prefWidth="898.0">
-							<font>
-								<Font name="Roboto" size="14.0" />
-							</font>
-						</TextArea>
-						<TabPane tabClosingPolicy="UNAVAILABLE">
-							<tabs>
-								<Tab text="Console">
-									<content>
-										<AnchorPane minHeight="0.0" minWidth="0.0">
-											<children>
-												<TextArea fx:id="textAreaConsole" editable="false" layoutY="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-													<font>
-														<Font name="Roboto" size="14.0" />
-													</font>
-												</TextArea>
-											</children>
-										</AnchorPane>
-									</content>
-								</Tab>
-							</tabs>
-						</TabPane>
+				<TextArea fx:id="textAreaCodigo" prefHeight="329.0"
+					prefWidth="898.0">
+					<font>
+						<Font name="Roboto" size="18.0" />
+					</font>
+				</TextArea>
+				<TabPane tabClosingPolicy="UNAVAILABLE">
+					<tabs>
+						<Tab text="Console">
+							<content>
+								<AnchorPane minHeight="0.0" minWidth="0.0">
+									<children>
+										<TextArea fx:id="textAreaConsole" editable="false"
+											layoutY="1.0" AnchorPane.bottomAnchor="0.0"
+											AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+											AnchorPane.topAnchor="0.0">
+											<font>
+												<Font name="Roboto" size="18.0" />
+											</font>
+										</TextArea>
+									</children>
+								</AnchorPane>
+							</content>
+						</Tab>
+					</tabs>
+				</TabPane>
 			</items>
 		</SplitPane>
 	</children>
