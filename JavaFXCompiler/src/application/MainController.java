@@ -41,12 +41,15 @@ public class MainController {
 		fileChooser.getExtensionFilters().add(extFilter);
 
 		File selectedFile = fileChooser.showOpenDialog(getStageFromMenuItemActionEvent(event));
-		FileBufferedReader reader = new FileBufferedReader(selectedFile.getAbsolutePath());
-
-		try {
-			this.textAreaCodigo.setText(reader.readFile());
-		} catch (Exception e) {
-			e.printStackTrace();
+		
+		if (selectedFile != null) {
+			FileBufferedReader reader = new FileBufferedReader(selectedFile.getAbsolutePath());
+			
+			try {
+				this.textAreaCodigo.setText(reader.readFile());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -95,10 +98,10 @@ public class MainController {
 	}
 	
 	@FXML
-	private void handleMenuNovo(ActionEvent event) {
+	private void handleMenuNovoClick(ActionEvent event) {
 		this.lastDirectorySaved = null;
 		this.textAreaCodigo.setText("");
-		this.textAreaCodigo.setText("");
+		this.textAreaConsole.setText("");
 	}
 
 	private Stage getStageFromMenuItemActionEvent(ActionEvent event) {

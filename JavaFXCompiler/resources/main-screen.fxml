@@ -30,6 +30,7 @@
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -40,16 +41,36 @@
 			<menus>
 				<Menu id="menuArquivo" mnemonicParsing="false" text="Arquivo">
 					<items>
-						<MenuItem id="menuItemNovo" mnemonicParsing="false" text="Novo" />
-						<MenuItem id="menuItemImportar" mnemonicParsing="false" onAction="#handleMenuImportarClick" text="Importar" />
-						<MenuItem id="menuItemSalvar" mnemonicParsing="false" onAction="#handleMenuSalvar" text="Salvar" />
+						<MenuItem id="menuItemNovo" mnemonicParsing="false" text="Novo" onAction="#handleMenuNovoClick">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+						<MenuItem id="menuItemImportar" mnemonicParsing="false" onAction="#handleMenuImportarClick" text="Importar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="I" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
+						<MenuItem id="menuItemSalvar" mnemonicParsing="false" onAction="#handleMenuSalvar" text="Salvar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
 						<SeparatorMenuItem mnemonicParsing="false" />
-						<MenuItem id="menuItemSair" mnemonicParsing="false" onAction="#handleMenuSairClick" text="Sair" />
+						<MenuItem id="menuItemSair" mnemonicParsing="false" onAction="#handleMenuSairClick" text="Sair">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="ESCAPE" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
 					</items>
 				</Menu>
 				<Menu mnemonicParsing="false" text="Projeto">
 					<items>
-						<MenuItem id="menuItemExecutar" mnemonicParsing="false" onAction="#handleMenuExecutarClick" text="Executar" />
+						<MenuItem id="menuItemExecutar" mnemonicParsing="false" onAction="#handleMenuExecutarClick" text="Executar">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="E" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator>
+                  </MenuItem>
 					</items>
 				</Menu>
 			</menus>
