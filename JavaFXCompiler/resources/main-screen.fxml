@@ -67,7 +67,7 @@
 									<content>
 										<AnchorPane minHeight="0.0" minWidth="0.0">
 											<children>
-												<TextArea fx:id="textAreaConsole" layoutY="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+												<TextArea fx:id="textAreaConsole" editable="false" layoutY="1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 													<font>
 														<Font name="Roboto" size="14.0" />
 													</font>
