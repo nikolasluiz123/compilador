@@ -62,7 +62,7 @@ writeln = identificador: "writeln"</tokens><non_terminals>&lt;PROGRAMA&gt;&#13;
 &lt;LISTA_COMANDOS1&gt; ::= î | &lt;LISTA_COMANDOS&gt;;&#13;
 &#13;
 &lt;ATRIBUICAO&gt; ::= &lt;TIPOS_PRIMITIVOS&gt; #1 identificador #2 "=" &lt;EXPRESSAO_A&gt;;&#13;
-&lt;EXPRESSAO_A&gt; ::= &lt;VALOR&gt; #3 &lt;EXPRESSAO_A1&gt;;&#13;
+&lt;EXPRESSAO_A&gt; ::= &lt;VALOR&gt; #3 &lt;EXPRESSAO_A1&gt; | identificador #3 &lt;EXPRESSAO_A1&gt;;&#13;
 &lt;EXPRESSAO_A1&gt; ::= î |  &lt;OPERACAO&gt; #6 &lt;EXPRESSAO_A&gt;;&#13;
 &#13;
 &lt;TIPOS_PRIMITIVOS&gt; ::= int | double | string | boolean;&#13;

@@ -67,7 +67,7 @@ public class Semantico implements Constants {
 			break;
 		}
 		case ACTION_WRITE_LN_IDENTIFICADOR: {
-			String resultado = realizarOperacoesVariavel(findVariable(token).get());
+			String resultado = realizarOperacoesVariavel(findVariable(token));
 			consumerWriteln.accept(resultado);
 
 			break;
@@ -255,18 +255,18 @@ public class Semantico implements Constants {
 
 		} else if (tokenIsIdentificador(valor) && tokenIsIdentificador(proximoValor)) {
 			
-			numero1 = Double.parseDouble(realizarOperacoesVariavel(findVariable(valor).get()));
-			numero2 = Double.parseDouble(realizarOperacoesVariavel(findVariable(valor).get()));
+			numero1 = Double.parseDouble(realizarOperacoesVariavel(findVariable(valor)));
+			numero2 = Double.parseDouble(realizarOperacoesVariavel(findVariable(valor)));
 			
 		} else if (tokenIsIdentificador(valor)) {
 			
-			numero1 = Double.parseDouble(realizarOperacoesVariavel(findVariable(valor).get()));
+			numero1 = Double.parseDouble(realizarOperacoesVariavel(findVariable(valor)));
 			numero2 = Double.parseDouble(proximoValor.getLexeme());
 			
 		} else if (tokenIsIdentificador(proximoValor)) {
 
 			numero1 = Double.parseDouble(valor.getLexeme());
-			numero2 = Double.parseDouble(realizarOperacoesVariavel(findVariable(valor).get()));
+			numero2 = Double.parseDouble(realizarOperacoesVariavel(findVariable(valor)));
 			
 		} else {
 			throw new SemanticError("Erro ao obter o valor da expressão booleana. O operador > deve ser usado apenas com números.");
@@ -279,7 +279,7 @@ public class Semantico implements Constants {
 		return token.getId() == Constants.t_numeroDecimal || token.getId() == Constants.t_numeroInteiro;
 	}
 	
-	private boolean tokenLexemeIsString(Token token) {
+	private boolean tokenIsString(Token token) {
 		return token.getId() == Constants.t_texto;
 	}
 	
@@ -316,25 +316,25 @@ public class Semantico implements Constants {
 			
 			resultado = Double.parseDouble(valor.getLexeme()) == Double.parseDouble(proximoValor.getLexeme());
 			
-		} else if (tokenLexemeIsString(valor) && tokenLexemeIsString(proximoValor)) {
+		} else if (tokenIsString(valor) && tokenIsString(proximoValor)) {
 			
 			resultado = valor.getLexeme().replace("\"", "").equals(proximoValor.getLexeme().replace("\"", ""));
 			
 		} else if (tokenIsIdentificador(valor) && tokenIsIdentificador(proximoValor)) {
 			
-			String valorVariavel1 = realizarOperacoesVariavel(findVariable(valor).get());
-			String valorVariavel2 = realizarOperacoesVariavel(findVariable(proximoValor).get());
+			String valorVariavel1 = realizarOperacoesVariavel(findVariable(valor));
+			String valorVariavel2 = realizarOperacoesVariavel(findVariable(proximoValor));
 
 			resultado = valorVariavel1.equals(valorVariavel2);
 		} else if (tokenIsIdentificador(valor)) {
 			
-			String valorVariavel = realizarOperacoesVariavel(findVariable(valor).get());
+			String valorVariavel = realizarOperacoesVariavel(findVariable(valor));
 			
 			resultado = valorVariavel.equals(proximoValor.getLexeme().replace("\"", ""));
 			
 		} else if (tokenIsIdentificador(proximoValor)) {
 			
-			String valorVariavel = realizarOperacoesVariavel(findVariable(proximoValor).get());
+			String valorVariavel = realizarOperacoesVariavel(findVariable(proximoValor));
 			
 			resultado = valorVariavel.equals(valor.getLexeme().replace("\"", ""));
 		} else {
@@ -344,7 +344,7 @@ public class Semantico implements Constants {
 		return resultado;
 	}
 
-	private Optional<Variavel> findVariable(Token tokenIdentifier) throws SemanticError {
+	private Variavel findVariable(Token tokenIdentifier) throws SemanticError {
 		Optional<Variavel> variavel = this.variaveis.stream()
 													.filter(v -> v.getIdentificador().getLexeme().equals(tokenIdentifier.getLexeme()))
 												    .findFirst();
@@ -353,7 +353,7 @@ public class Semantico implements Constants {
 			throw new SemanticError("A variável %s não foi declarada".formatted(tokenIdentifier.getLexeme()));
 		}
 		
-		return variavel;
+		return variavel.get();
 	}
 
 	private String realizarOperacoesInteiros(Variavel variavel) throws SemanticError {
@@ -362,6 +362,7 @@ public class Semantico implements Constants {
 
 		for (Token valor : variavel.getValores()) {
 			if (valor.getId() == Constants.t_numeroInteiro) {
+				
 				if (resultado == null) {
 					resultado = Integer.parseInt(valor.getLexeme());
 				} else if (idOperacao == Constants.t_TOKEN_2) {
@@ -375,6 +376,27 @@ public class Semantico implements Constants {
 				} else {
 					throw new SemanticError("A operação não é suportada com o tipo int.");
 				}
+				
+			} else if (valor.getId() == Constants.t_identificador) {
+				validarTipoVariavel(valor, Constants.t_int, "int");
+				
+				Variavel variable = findVariable(valor);
+				String resultadoVariavel = realizarOperacoesVariavel(variable);
+				
+				if (resultado == null) {
+					resultado = Integer.parseInt(resultadoVariavel);
+				} else if (idOperacao == Constants.t_TOKEN_2) {
+					resultado += Integer.parseInt(resultadoVariavel);
+				} else if (idOperacao == Constants.t_TOKEN_3) {
+					resultado -= Integer.parseInt(resultadoVariavel);
+				} else if (idOperacao == Constants.t_TOKEN_5) {
+					resultado /= Integer.parseInt(resultadoVariavel);
+				} else if (idOperacao == Constants.t_TOKEN_6) {
+					resultado *= Integer.parseInt(resultadoVariavel);
+				} else {
+					throw new SemanticError("A operação não é suportada com o tipo int.");
+				}
+				
 			} else {
 				idOperacao = valor.getId();
 			}
@@ -383,12 +405,21 @@ public class Semantico implements Constants {
 		return resultado.toString();
 	}
 
+	private void validarTipoVariavel(Token token, int tipo, String tipoRequerido) throws SemanticError {
+		Variavel variavel = findVariable(token);
+		
+		if (variavel.getTipo().getId() != tipo) {
+			throw new SemanticError("A variável %s deve ser do tipo %s para realizar a operação.".formatted(variavel.getIdentificador().getLexeme(), tipoRequerido));
+		}
+	}
+
 	private String realizarOperacoesDecimais(Variavel variavel) throws SemanticError {
 		Double resultado = null;
 		Integer idOperacao = null;
 
 		for (Token valor : variavel.getValores()) {
-			if (valor.getId() == Constants.t_numeroDecimal) {
+			if (tokenIsNumber(valor)) {
+				
 				if (resultado == null) {
 					resultado = Double.parseDouble(valor.getLexeme());
 				} else if (idOperacao == Constants.t_TOKEN_2) {
@@ -402,6 +433,31 @@ public class Semantico implements Constants {
 				} else {
 					throw new SemanticError("A operação não é suportada com o tipo double.");
 				}
+
+			} else if (tokenIsIdentificador(valor)) {
+				try {
+					validarTipoVariavel(valor, Constants.t_int, "int");
+				} catch (SemanticError e) {
+					validarTipoVariavel(valor, Constants.t_double, "double");
+				}
+
+				Variavel variable = findVariable(valor);
+				String resultadoVariavel = realizarOperacoesVariavel(variable);
+				
+				if (resultado == null) {
+					resultado = Double.parseDouble(resultadoVariavel);
+				} else if (idOperacao == Constants.t_TOKEN_2) {
+					resultado += Double.parseDouble(resultadoVariavel);
+				} else if (idOperacao == Constants.t_TOKEN_3) {
+					resultado -= Double.parseDouble(resultadoVariavel);
+				} else if (idOperacao == Constants.t_TOKEN_5) {
+					resultado /= Double.parseDouble(resultadoVariavel);
+				} else if (idOperacao == Constants.t_TOKEN_6) {
+					resultado *= Double.parseDouble(resultadoVariavel);
+				} else {
+					throw new SemanticError("A operação não é suportada com o tipo double.");
+				}
+				
 			} else {
 				idOperacao = valor.getId();
 			}
@@ -409,13 +465,14 @@ public class Semantico implements Constants {
 
 		return resultado.toString();
 	}
-
+	
 	private String realizarOperacoesStrings(Variavel variavel) throws SemanticError {
 		String resultado = null;
 		Integer idOperacao = null;
 
 		for (Token valor : variavel.getValores()) {
-			if (valor.getId() == Constants.t_texto) {
+			if (tokenIsString(valor)) {
+				
 				if (resultado == null) {
 					resultado = valor.getLexeme().replace("\"", "");
 				} else if (idOperacao == Constants.t_TOKEN_2) {
@@ -423,6 +480,21 @@ public class Semantico implements Constants {
 				} else {
 					throw new SemanticError("A operação não é suportada com o tipo string.");
 				}
+				
+			} else if (valor.getId() == Constants.t_identificador) {
+				validarTipoVariavel(valor, Constants.t_string, "string");
+				
+				Variavel variable = findVariable(valor);
+				String resultadoVariavel = realizarOperacoesVariavel(variable);
+				
+				if (resultado == null) {
+					resultado = resultadoVariavel.replace("\"", "");
+				} else if (idOperacao == Constants.t_TOKEN_2) {
+					resultado += resultadoVariavel.replace("\"", "");
+				} else {
+					throw new SemanticError("A operação não é suportada com o tipo string.");
+				}
+				
 			} else {
 				idOperacao = valor.getId();
 			}
@@ -474,14 +546,25 @@ public class Semantico implements Constants {
 	}
 
 	private void validarTipoString(Token token, String lexemeValor) throws SemanticError {
-		if (!(lexemeValor.startsWith("\"") && lexemeValor.endsWith("\""))) {
+		if (token.getId() == Constants.t_identificador) {
+			Variavel variavel = findVariable(token);
+
+			if (variavel.getTipo().getId() != Constants.t_string) {
+				throw new SemanticError("Tipo incompatível na posição %s. A variável %s deve ser do tipo string.".formatted(token.getId(), 
+																															variavel.getIdentificador().getLexeme()));
+			}
+		} else if (token.getId() != Constants.t_texto) {
 			throw new SemanticError("Tipo incompatível na posição " + token.getPosition());
 		}
 	}
 
 	private void validarTipoDouble(Token token, String lexemeValor) throws SemanticError {
 		try {
-			Double.parseDouble(lexemeValor);
+			if (token.getId() == Constants.t_identificador) {
+				Double.parseDouble(realizarOperacoesDecimais(findVariable(token)));
+			} else {
+				Double.parseDouble(lexemeValor);
+			}
 		} catch (NumberFormatException e) {
 			throw new SemanticError("Tipo incompatível na posição " + token.getPosition());
 		}
@@ -489,7 +572,11 @@ public class Semantico implements Constants {
 
 	private void validarTipoInteiro(Token token, String lexemeValor) throws SemanticError {
 		try {
-			Integer.parseInt(lexemeValor);
+			if (token.getId() == Constants.t_identificador) {
+				Integer.parseInt(realizarOperacoesInteiros(findVariable(token)));
+			} else {
+				Integer.parseInt(lexemeValor);
+			}
 		} catch (NumberFormatException e) {
 			throw new SemanticError("Tipo incompatível na posição " + token.getPosition());
 		}
