@@ -63,7 +63,15 @@ public class Semantico implements Constants {
 			break;
 		}
 		case ACTION_WRITE_LN_VALOR: {
-			consumerWriteln.accept(token.getLexeme().replace("\"", ""));
+			boolean executar = true;
+			
+			if (expressao != null) {
+				executar = getValueExpressaoBooleana(expressao);
+			}
+			
+			if (executar) {
+				consumerWriteln.accept(token.getLexeme().replace("\"", ""));
+			}
 			break;
 		}
 		case ACTION_WRITE_LN_IDENTIFICADOR: {
@@ -91,9 +99,10 @@ public class Semantico implements Constants {
 			break;
 		}
 		case ACTION_FINALIZAR_EXPRESSAO_BOOLEANA: {
-			this.expressoes.push(this.expressao);
-			System.out.println(getValueExpressaoBooleana(this.expressao));
-			this.expressao = null;
+			if (this.expressao != null) {
+				this.expressoes.push(this.expressao);
+				this.expressao = null;
+			}
 
 			break;
 		}
