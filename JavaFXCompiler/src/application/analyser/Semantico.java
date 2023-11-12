@@ -145,54 +145,54 @@ public class Semantico implements Constants {
 			try { proximoValor = expressao.getValores().get(indexValor + 1); } catch (IndexOutOfBoundsException e) { }
 			
 			switch (operador.getId()) {
-			case Constants.t_TOKEN_10: {
+			case Constants.t_TOKEN_9: {
 				resultado = getBooleanMaiorQue(valor, proximoValor);
 				indexOperador++;
 				break;
 			}
-			case Constants.t_TOKEN_11: {
+			case Constants.t_TOKEN_10: {
 				resultado = getBooleanMenorQue(valor, proximoValor);
 				indexOperador++;
 				break;
 			}
-			case Constants.t_TOKEN_12: {
+			case Constants.t_TOKEN_11: {
 				resultado = getBooleanIgual(valor, proximoValor);
 				indexOperador++;
 				break;
 			}
-			case Constants.t_TOKEN_13: {
+			case Constants.t_TOKEN_12: {
 				resultado = getBooleanMaiorIgual(valor, proximoValor);
 				indexOperador++;
 				break;
 			}
-			case Constants.t_TOKEN_14: {
+			case Constants.t_TOKEN_13: {
 				resultado = getBooleanMenorIgual(valor, proximoValor);
 				indexOperador++;
 				break;
 			}
 			case Constants.t_TOKEN_7: {
 				switch (proximoOperador.getId()) {
-				case Constants.t_TOKEN_10: {
+				case Constants.t_TOKEN_9: {
 					resultado = resultado && getBooleanMaiorQue(valor, proximoValor);
 					indexOperador += 2;
 					break;
 				}
-				case Constants.t_TOKEN_11: {
+				case Constants.t_TOKEN_10: {
 					resultado = resultado && getBooleanMenorQue(valor, proximoValor);
 					indexOperador += 2;
 					break;
 				}
-				case Constants.t_TOKEN_12: {
+				case Constants.t_TOKEN_11: {
 					resultado = resultado && getBooleanIgual(valor, proximoValor);
 					indexOperador += 2;
 					break;
 				}
-				case Constants.t_TOKEN_13: {
+				case Constants.t_TOKEN_12: {
 					resultado = resultado && getBooleanMaiorIgual(valor, proximoValor);
 					indexOperador += 2;
 					break;
 				}
-				case Constants.t_TOKEN_14: {
+				case Constants.t_TOKEN_13: {
 					resultado = resultado && getBooleanMenorIgual(valor, proximoValor);
 					indexOperador += 2;
 					break;
@@ -205,27 +205,27 @@ public class Semantico implements Constants {
 			}
 			case Constants.t_TOKEN_8: {
 				switch (proximoOperador.getId()) {
-				case Constants.t_TOKEN_10: {
+				case Constants.t_TOKEN_9: {
 					resultado = resultado || getBooleanMaiorQue(valor, proximoValor);
 					indexOperador += 2;
 					break;
 				}
-				case Constants.t_TOKEN_11: {
+				case Constants.t_TOKEN_10: {
 					resultado = resultado || getBooleanMenorQue(valor, proximoValor);
 					indexOperador += 2;
 					break;
 				}
-				case Constants.t_TOKEN_12: {
+				case Constants.t_TOKEN_11: {
 					resultado = resultado || getBooleanIgual(valor, proximoValor);
 					indexOperador += 2;
 					break;
 				}
-				case Constants.t_TOKEN_13: {
+				case Constants.t_TOKEN_12: {
 					resultado = resultado || getBooleanMaiorIgual(valor, proximoValor);
 					indexOperador += 2;
 					break;
 				}
-				case Constants.t_TOKEN_14: {
+				case Constants.t_TOKEN_13: {
 					resultado = resultado || getBooleanMenorIgual(valor, proximoValor);
 					indexOperador += 2;
 					break;
@@ -330,7 +330,7 @@ public class Semantico implements Constants {
 			
 			String valorVariavel = realizarOperacoesVariavel(findVariable(valor).get());
 			
-			resultado = valorVariavel.equals(valor.getLexeme().replace("\"", ""));
+			resultado = valorVariavel.equals(proximoValor.getLexeme().replace("\"", ""));
 			
 		} else if (tokenIsIdentificador(proximoValor)) {
 			
@@ -344,10 +344,16 @@ public class Semantico implements Constants {
 		return resultado;
 	}
 
-	private Optional<Variavel> findVariable(Token tokenIdentifier) {
-		return this.variaveis.stream()
-							 .filter(v -> v.getIdentificador().getLexeme().equals(tokenIdentifier.getLexeme()))
-							 .findFirst();
+	private Optional<Variavel> findVariable(Token tokenIdentifier) throws SemanticError {
+		Optional<Variavel> variavel = this.variaveis.stream()
+													.filter(v -> v.getIdentificador().getLexeme().equals(tokenIdentifier.getLexeme()))
+												    .findFirst();
+		
+		if (!variavel.isPresent()) {
+			throw new SemanticError("A variável %s não foi declarada".formatted(tokenIdentifier.getLexeme()));
+		}
+		
+		return variavel;
 	}
 
 	private String realizarOperacoesInteiros(Variavel variavel) throws SemanticError {

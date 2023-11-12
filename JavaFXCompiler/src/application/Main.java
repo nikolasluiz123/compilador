@@ -16,7 +16,7 @@ public class Main extends Application {
 
 			Scene scene = new Scene(root);
 
-			primaryStage.setTitle("Exemplo JavaFX");
+			primaryStage.setTitle("Compilador Java");
 			primaryStage.setScene(scene);
 			primaryStage.show();
 		} catch (Exception e) {
