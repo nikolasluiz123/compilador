@@ -68,7 +68,11 @@ public class Sintatico implements Constants
                 return true;
 
             case ERROR:
-                throw new SyntaticError(PARSER_ERROR[state], currentToken.getPosition());
+            	if (previousToken != null) {
+            		throw new SyntaticError("Ocorreu um erro de syntax, verifique o código digitado após o token %s".formatted(previousToken.getLexeme()));
+				} else {
+            		throw new SyntaticError("Ocorreu um erro de syntax no token %s".formatted(currentToken.getLexeme()));
+				}
         }
         return false;
     }

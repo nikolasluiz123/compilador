@@ -1,0 +1,13 @@
+##
+	if(3 > 5 &&) {
+		writeln("Deu Ruim")
+	}
+##
+
+##
+	doub numero = 3.4
+##
+
+##
+	float numero = 4f
+##

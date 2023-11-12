@@ -1,0 +1,13 @@
+int soma = 3 + 5
+int calculo = soma * 2
+
+writeln("Resultado do cálculo com inteiros: ")
+writeln(calculo)
+
+double somaDecimais = 3.5 + 3.9
+double calculoDecimais = somaDecimais / 2 * 5
+
+writeln("")
+
+writeln("Resultado do cálculo com decimais: ")
+writeln(calculoDecimais)

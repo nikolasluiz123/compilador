@@ -1,0 +1,10 @@
+int soma = 3 + 5 + 4
+
+writeln("Resultado da soma:")
+writeln(soma)
+
+writeln("")
+
+int calculo = 3 + 4 + 2 + 10 - 5 * 3 / 2
+writeln("Resultado do cálculo:")
+writeln(calculo)

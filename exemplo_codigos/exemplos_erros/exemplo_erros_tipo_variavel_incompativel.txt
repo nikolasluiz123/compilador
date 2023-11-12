@@ -1,0 +1,7 @@
+# int soma1 = 15.3 + 2
+# int soma2 = "3" + "2"
+
+# double soma3 = 3 + 5
+# writeln(soma3)
+
+# string texto = 3

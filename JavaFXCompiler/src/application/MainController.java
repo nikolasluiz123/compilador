@@ -39,6 +39,10 @@ public class MainController {
 
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Arquivos de Texto (*.txt)", "*.txt");
 		fileChooser.getExtensionFilters().add(extFilter);
+		
+		if (this.lastDirectorySaved != null) {
+			fileChooser.setInitialDirectory(this.lastDirectorySaved);
+		}
 
 		File selectedFile = fileChooser.showOpenDialog(getStageFromMenuItemActionEvent(event));
 		

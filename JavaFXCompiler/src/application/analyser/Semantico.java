@@ -304,7 +304,7 @@ public class Semantico implements Constants {
 	
 	private Boolean getBooleanMenorQue(Token valor, Token proximoValor) throws SemanticError {
 		Pair<Double, Double> numbers = parseAndValidateNumberTokens(valor, proximoValor);
-		return numbers.getKey() > numbers.getValue();
+		return numbers.getKey() < numbers.getValue();
 	}
 	
 

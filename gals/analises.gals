@@ -23,7 +23,7 @@ COMENTARIO_BLOCO : "##" [^ "*" ]* "##"</definitions><tokens>"+"&#13;
 identificador: {letra} ( {letra} | {digito} )*&#13;
 numeroInteiro: {digito}+&#13;
 numeroDecimal: {digito}+"."{digito}+&#13;
-texto: \"[^\n]*\"&#13;
+texto: \"[^\n\"]*\"&#13;
 &#13;
 if = identificador: "if"&#13;
 &#13;

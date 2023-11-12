@@ -1,0 +1,2 @@
+double calculo = 3.5 + 2.9 - 0.9 / 2 * 3
+writeln(calculo)

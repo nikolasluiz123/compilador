@@ -1,0 +1,18 @@
+# Exemplo de Concatenação de Strings
+string titulo = "Uma parte do texto. "
+string texto = "Uma mensagem qualquer cheia de incríveis informações." 
+string mensagem = titulo + texto
+
+writeln(mensagem)
+
+writeln("")
+
+##
+   Aqui vou usar uma variável só para montar a mensagem
+##
+string outraMensagem = "Uma parte da mensagem. " + "Outra parte da Mensagem"
+writeln(outraMensagem)
+
+writeln("")
+
+writeln("Um última mensagem. ")
