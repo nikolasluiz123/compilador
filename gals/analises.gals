@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><gals_file><options_list><option><name>scanner.gen</name><value>true</value></option><option><name>parser.gen</name><value>true</value></option><option><name>scanner.sensitive</name><value>true</value></option><option><name>scanner.name</name><value>Lexico</value></option><option><name>parser.name</name><value>Sintatico</value></option><option><name>semantic.name</name><value>Semantico</value></option><option><name>package</name><value/></option><option><name>language</name><value>java</value></option><option><name>language</name><value>java</value></option><option><name>parser</name><value>SLR</value></option><option><name>table.scanner</name><value>full</value></option></options_list><data><definitions>letra: [a-zA-z]&#13;
 digito: [0-9]&#13;
 &#13;
-WS : [\ \t\n\r]</definitions><tokens>//ignorar espaços em branco e comentários&#13;
+WS : [\ \t\n\r]&#13;
+COMENTARIO_LINHA : ['/'/'][^\n]*&#13;
+COMENTARIO_BLOCO : "/*" [^ "*" ]* "*/"</definitions><tokens>//ignorar espaços em branco e comentários&#13;
  : {WS}*&#13;
+ : {COMENTARIO_LINHA}&#13;
+ : {COMENTARIO_BLOCO}&#13;
 &#13;
 "+"&#13;
 "-"&#13;
