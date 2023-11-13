@@ -1,4 +1,4 @@
-package application;
+package br.com.java.compiler;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

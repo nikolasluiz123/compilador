@@ -1,4 +1,4 @@
-package application;
+package br.com.java.compiler.controller;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,10 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.function.Consumer;
 
-import application.analyser.Lexico;
-import application.analyser.Semantico;
-import application.analyser.Sintatico;
-import application.reader.FileBufferedReader;
+import br.com.java.compiler.analyzer.operation.LexicalAnalyzer;
+import br.com.java.compiler.analyzer.operation.SemanticAnalyzer;
+import br.com.java.compiler.analyzer.operation.SintaticAnalyzer;
+import br.com.java.compiler.reader.FileBufferedReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuItem;
@@ -17,6 +17,11 @@ import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+/**
+ * Classe controller utilizada na tela principal do compilador.
+ * 
+ * @author Nikolas Luiz Schmitt
+ */
 public class MainController {
 
 	@FXML
@@ -28,10 +33,12 @@ public class MainController {
 	private File lastDirectorySaved;
 
 	@FXML
-	private void handleMenuSairClick(ActionEvent event) {
-		getStageFromMenuItemActionEvent(event).close();
+	private void handleMenuNovoClick(ActionEvent event) {
+		this.lastDirectorySaved = null;
+		this.textAreaCodigo.setText("");
+		this.textAreaConsole.setText("");
 	}
-
+	
 	@FXML
 	private void handleMenuImportarClick(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
@@ -62,19 +69,15 @@ public class MainController {
 		try {
 			this.textAreaConsole.clear();
 			
-			Lexico lexico = new Lexico(this.textAreaCodigo.getText());
-			Sintatico sintatico = new Sintatico();
-			Semantico semantico = new Semantico(getConsumerWriteln());
+			LexicalAnalyzer lexico = new LexicalAnalyzer(this.textAreaCodigo.getText());
+			SintaticAnalyzer sintatico = new SintaticAnalyzer();
+			SemanticAnalyzer semantico = new SemanticAnalyzer(getConsumerWriteln());
 			
 			sintatico.parse(lexico, semantico);
 		} catch (Exception e) {
 			this.textAreaConsole.setText(e.getMessage());
 			e.printStackTrace();
 		}
-	}
-
-	private Consumer<String> getConsumerWriteln() {
-		return (texto) -> this.textAreaConsole.appendText(texto + "\r\n");
 	}
 
 	@FXML
@@ -101,13 +104,15 @@ public class MainController {
 		}
 	}
 	
-	@FXML
-	private void handleMenuNovoClick(ActionEvent event) {
-		this.lastDirectorySaved = null;
-		this.textAreaCodigo.setText("");
-		this.textAreaConsole.setText("");
+	private Consumer<String> getConsumerWriteln() {
+		return (texto) -> this.textAreaConsole.appendText(texto + "\r\n");
 	}
-
+	
+	@FXML
+	private void handleMenuSairClick(ActionEvent event) {
+		getStageFromMenuItemActionEvent(event).close();
+	}
+	
 	private Stage getStageFromMenuItemActionEvent(ActionEvent event) {
 		return ((Stage) ((MenuItem) event.getSource()).getParentPopup().getOwnerWindow());
 	}

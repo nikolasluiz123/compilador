@@ -37,7 +37,7 @@
 
 <VBox prefHeight="600.0" prefWidth="900.0"
 	xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-	fx:controller="application.MainController">
+	fx:controller="br.com.java.compiler.controller.MainController">
 	<children>
 		<MenuBar VBox.vgrow="NEVER">
 			<menus>

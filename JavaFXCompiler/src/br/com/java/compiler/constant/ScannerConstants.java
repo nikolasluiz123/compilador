@@ -1,4 +1,4 @@
-package application.analyser;
+package br.com.java.compiler.constant;
 
 public interface ScannerConstants
 {

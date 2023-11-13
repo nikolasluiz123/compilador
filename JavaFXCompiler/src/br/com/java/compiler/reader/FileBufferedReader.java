@@ -1,4 +1,4 @@
-package application.reader;
+package br.com.java.compiler.reader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
