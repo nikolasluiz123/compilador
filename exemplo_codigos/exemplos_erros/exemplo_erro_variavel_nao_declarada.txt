@@ -1,0 +1,6 @@
+string texto = "batata"
+string texto2 = "batata"
+
+if(texto == testo2) {
+    writeln("as batatas são iguais")
+}

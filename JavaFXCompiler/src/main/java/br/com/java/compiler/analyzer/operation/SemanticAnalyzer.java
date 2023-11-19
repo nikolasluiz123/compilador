@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 import br.com.java.compiler.analyzer.representation.BooleanExpression;
 import br.com.java.compiler.analyzer.representation.Token;
 import br.com.java.compiler.analyzer.representation.Variable;
-import br.com.java.compiler.analyzer.utils.BooleanExpressionUtils;
 import br.com.java.compiler.analyzer.utils.TypeValidatorUtils;
 import br.com.java.compiler.analyzer.utils.VariableUtils;
 import br.com.java.compiler.constant.Constants;
@@ -61,7 +60,7 @@ public class SemanticAnalyzer implements Constants {
 				variable.setIdentifier(token);
 				this.variables.push(variable);
 			} else {
-				throw new SemanticError(MessageConstants.MESSAGE_IDENTIFIER_DECLARED.formatted(token.getLexeme()));
+				throw new SemanticError(MessageConstants.MESSAGE_VARIABLE_DECLARED.formatted(token.getLexeme()));
 			}
 
 			break;
@@ -79,7 +78,7 @@ public class SemanticAnalyzer implements Constants {
 			boolean run = true;
 			
 			if (this.booleanExpression != null) {
-				run = BooleanExpressionUtils.getValueBooleanExpression(this.booleanExpression, this.variables);
+				run = this.booleanExpression.getValue(this.variables);
 			}
 			
 			if (run) {
@@ -88,8 +87,8 @@ public class SemanticAnalyzer implements Constants {
 			break;
 		}
 		case ACTION_WRITE_LN_WITH_IDENTIFIER: {
-			String result = VariableUtils.calculateVariableValue(token, this.variables);
-			consumerWriteln.accept(result);
+			Variable variable = VariableUtils.findVariable(token, this.variables);
+			consumerWriteln.accept(variable.calculateValue(this.variables));
 
 			break;
 		}

@@ -5,3 +5,12 @@
 # writeln(soma3)
 
 # string texto = 3
+
+##
+  string texto1 = "batata"
+  string texto2 = "batataa"
+
+  if(texto1 > texto2) {
+     writeln("texto1 é maior que texto2")
+  }
+##
