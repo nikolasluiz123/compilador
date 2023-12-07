@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import br.com.java.compiler.analyzer.utils.TokenUtils;
 import br.com.java.compiler.analyzer.utils.TypeValidatorUtils;
+import br.com.java.compiler.analyzer.utils.VariableUtils;
 import br.com.java.compiler.constant.Constants;
 import br.com.java.compiler.error.SemanticError;
 import javafx.util.Pair;
@@ -84,8 +85,9 @@ public class Variable {
 				}
 
 			} else if (TokenUtils.tokenIsIdentifier(token, variables)) {
-				TypeValidatorUtils.validateVariableType(this, Arrays.asList(new Pair<>(Constants.TOKEN_INT_TYPE, "int")));
-				String variableValue = calculateValue(variables);
+				Variable variable = VariableUtils.findVariable(token, variables);
+				TypeValidatorUtils.validateVariableType(variable, Arrays.asList(new Pair<>(Constants.TOKEN_INT_TYPE, "int")));
+				String variableValue = variable.calculateValue(variables);
 
 				if (result == null) {
 					result = Integer.parseInt(variableValue);
@@ -139,9 +141,10 @@ public class Variable {
 				}
 
 			} else if (TokenUtils.tokenIsIdentifier(token, variables)) {
-				TypeValidatorUtils.validateNumberVariableType(this);
+				Variable variable = VariableUtils.findVariable(token, variables);
+				TypeValidatorUtils.validateNumberVariableType(variable);
 				
-				String variableResult = calculateValue(variables);
+				String variableResult = variable.calculateValue(variables);
 
 				if (result == null) {
 					result = Double.parseDouble(variableResult);
@@ -189,9 +192,10 @@ public class Variable {
 				}
 
 			} else if (TokenUtils.tokenIsIdentifier(token, variables)) {
-				TypeValidatorUtils.validateVariableType(this, Arrays.asList(new Pair<>(Constants.TOKEN_STRING_TYPE, "string")));
+				Variable variable = VariableUtils.findVariable(token, variables);
+				TypeValidatorUtils.validateVariableType(variable, Arrays.asList(new Pair<>(Constants.TOKEN_STRING_TYPE, "string")));
 
-				String variableResult = calculateValue(variables);
+				String variableResult = variable.calculateValue(variables);
 
 				if (result == null) {
 					result = variableResult.replace("\"", "");

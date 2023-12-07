@@ -1,6 +1,6 @@
-# Exemplo de Concatenação de Strings
+# Exemplo de ConcatenaÃ§Ã£o de Strings
 string titulo = "Uma parte do texto. "
-string texto = "Uma mensagem qualquer cheia de incríveis informações." 
+string texto = "Uma mensagem qualquer cheia de incrÃ­veis informaÃ§Ãµes." 
 string mensagem = titulo + texto
 
 writeln(mensagem)
@@ -8,11 +8,11 @@ writeln(mensagem)
 writeln("")
 
 ##
-   Aqui vou usar uma variável só para montar a mensagem
+   Aqui vou usar uma variÃ¡vel sÃ³ para montar a mensagem
 ##
 string outraMensagem = "Uma parte da mensagem. " + "Outra parte da Mensagem"
 writeln(outraMensagem)
 
 writeln("")
 
-writeln("Um última mensagem. ")
+writeln("Um Ãºltima mensagem. ")

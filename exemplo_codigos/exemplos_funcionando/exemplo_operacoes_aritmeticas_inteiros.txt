@@ -6,5 +6,5 @@ writeln(soma)
 writeln("")
 
 int calculo = 3 + 4 + 2 + 10 - 5 * 3 / 2
-writeln("Resultado do c·lculo:")
+writeln("Resultado do c√°lculo:")
 writeln(calculo)

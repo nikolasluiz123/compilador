@@ -1,11 +1,11 @@
 int idade = 16
 
 if(idade < 18) {
-	writeln("A pessoa é menor de idade")
+	writeln("A pessoa Ã© menor de idade")
 }
 
 if(idade >= 18) {
-	writeln("A pessoa é maior de idade")
+	writeln("A pessoa Ã© maior de idade")
 }
 
 if(idade > 18 && idade < 60) {
